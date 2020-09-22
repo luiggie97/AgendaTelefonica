@@ -77,8 +77,7 @@ $(document).ready(function () {
         let Email = $("#txtEmail").val()
         let Phone = $("#txtPhone").val()
         let register = {}
-
-        let isEmail = IsEmail(Email)
+        
         var EmailIndex = Email.indexOf("@");
         var EmailIndexDot = Email.lastIndexOf(".");
         if (EmailIndex < 1 || EmailIndexDot < EmailIndex + 2 || EmailIndexDot + 2 >= Email.length) {
