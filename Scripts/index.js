@@ -57,74 +57,83 @@ $(document).ready(function () {
     data = []
     data = JSON.parse(localStorage.getItem("__dados__"))
 
-   
-    
+
+
     if (data) {
         TableData()
 
-    }else{
+    } else {
         data = []
     }
-    
-    
+
+
 
     $("#btnSave").click(function () {
-        
+
+
+
         let _id = $("#hdID").val()
         let Name = $("#txtName").val()
         let Email = $("#txtEmail").val()
         let Phone = $("#txtPhone").val()
         let register = {}
 
-        if (Name == "" || Email == "" || Phone == "") {
-            alert("Todos os campos precisam ser preenchidos")
+        let isEmail = IsEmail(Email)
+        var EmailIndex = Email.indexOf("@");
+        var EmailIndexDot = Email.lastIndexOf(".");
+        if (EmailIndex < 1 || EmailIndexDot < EmailIndex + 2 || EmailIndexDot + 2 >= Email.length) {
+            alert("Não é um endereço de e-mail válido");
         }
         else {
+            if (Name == "" || Email == "" || Phone == "") {
+                alert("Todos os campos precisam ser preenchidos")
+            }
+            else {
 
+                register.Name = Name
+                register.Email = Email
+                register.Phone = Phone
 
-            register.Name = Name
-            register.Email = Email
-            register.Phone = Phone
+                if (!_id || _id == "0") {
+                    if (data == null) {
+                        register.ID = 1
+                    }
+                    else {
+                        register.ID = data.length + 1
+                    }
 
-            if (!_id || _id == "0") {
+                    data.push(register)
+                }
+                else {
+                    data.forEach(function (item) {
+                        if (item.ID == _id) {
+                            item.Name = Name
+                            item.Email = Email
+                            item.Phone = Phone
+
+                        }
+                    })
+                }
+
                 if (data == null) {
                     register.ID = 1
                 }
                 else {
                     register.ID = data.length + 1
                 }
-       
-                data.push(register)
+
+
+                alert("Contato salvo com sucesso")
+                $("#modalRegister").modal("hide")
+
+                $("#hdID").val("0")
+                $("#txtName").val("")
+                $("#txtEmail").val("")
+                $("#txtPhone").val("")
+
+
+                TableData()
             }
-            else {
-                data.forEach(function (item) {
-                    if (item.ID == _id) {
-                        item.Name = Name
-                        item.Email = Email
-                        item.Phone = Phone
-
-                    }
-                })
-            }
-
-            if (data == null) {
-                register.ID = 1
-            }
-            else {
-                register.ID = data.length + 1
-            }
-
-
-            alert("Contato salvo com sucesso")
-            $("#modalRegister").modal("hide")
-
-            $("#hdID").val("0")
-            $("#txtName").val("")
-            $("#txtEmail").val("")
-            $("#txtPhone").val("")
-
-
-            TableData()
         }
     })
 })
