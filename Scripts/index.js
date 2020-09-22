@@ -57,15 +57,19 @@ $(document).ready(function () {
     data = []
     data = JSON.parse(localStorage.getItem("__dados__"))
 
+   
+    
     if (data) {
         TableData()
 
+    }else{
+        data = []
     }
+    
+    
 
     $("#btnSave").click(function () {
-
-
-
+        
         let _id = $("#hdID").val()
         let Name = $("#txtName").val()
         let Email = $("#txtEmail").val()
@@ -83,7 +87,13 @@ $(document).ready(function () {
             register.Phone = Phone
 
             if (!_id || _id == "0") {
-                register.ID = data.length + 1
+                if (data == null) {
+                    register.ID = 1
+                }
+                else {
+                    register.ID = data.length + 1
+                }
+       
                 data.push(register)
             }
             else {
